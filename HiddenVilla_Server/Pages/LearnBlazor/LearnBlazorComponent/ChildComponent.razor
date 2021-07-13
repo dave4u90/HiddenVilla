@@ -21,15 +21,19 @@
         }
     </div>
     <button class="btn btn-danger" @onclick="OnClickBtnMethod">Button to be clicked!</button>
+    <GrandChildComponent></GrandChildComponent>
 </div>
 
 @code {
     [Parameter]
     public string Title { get; set; }
+
     [Parameter]
     public RenderFragment ChildContent { get; set; }
+
     [Parameter]
     public RenderFragment SecondChildContent { get; set; }
+
     [Parameter]
     public EventCallback<MouseEventArgs> OnClickBtnMethod { get; set; }
 }
