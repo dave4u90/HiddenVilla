@@ -12,6 +12,9 @@ using Microsoft.Extensions.Hosting;
 using HiddenVilla_Server.Data;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
+using Business.Repository.IRepository;
+using Business.Repository;
+using System.Globalization;
 
 namespace HiddenVilla_Server
 {
@@ -19,6 +22,8 @@ namespace HiddenVilla_Server
     {
         public Startup(IConfiguration configuration)
         {
+            CultureInfo.DefaultThreadCurrentCulture = new CultureInfo("en-US");
+
             Configuration = configuration;
         }
 
@@ -30,6 +35,7 @@ namespace HiddenVilla_Server
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
+            services.AddScoped<IHotelRoomRepository, HotelRoomRepository>();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();

@@ -19,6 +19,7 @@ namespace Models
         [Required(ErrorMessage = "Please enter regulardate")]
         public double RegularRate { get; set; }
         public string Details { get; set; }
+        [Required(ErrorMessage = "Please enter size of the room")]
         public string SqFt { get; set; }
     }
 }
