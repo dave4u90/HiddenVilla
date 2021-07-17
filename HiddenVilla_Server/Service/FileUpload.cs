@@ -20,7 +20,7 @@ namespace HiddenVilla_Server.Service
         { 
             try
             {
-                var path = $"{_webHostEnvironment.WebRootPath}\\RoomImages\\{filename}";
+                var path = $"{_webHostEnvironment.WebRootPath}/RoomImages/{filename}";
 
                 if (File.Exists(path))
                 {

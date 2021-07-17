@@ -56,7 +56,7 @@
                                         <div class="room-image" style="background: url('@roomImage') 50% 50%;">
                                             <span class="room-image-title">@serial</span>
                                         </div>
-                                        <button class="btn btn-outline-danger btn-block mt-4">
+                                        <button type="button" class="btn btn-outline-danger btn-block mt-4" @onclick="()=>DeletePhoto(roomImage)">
                                             Delete
                                         </button>
                                     </div>
@@ -76,12 +76,13 @@
 </div>
 
 @code {
-    [Parameter]
-    public int? Id { get; set; }
+        [Parameter]
+        public int? Id { get; set; }
 
     private HotelRoomDTO HotelRoomModel { get; set; } = new HotelRoomDTO();
     private string Title { get; set; } = "Create";
     public HotelRoomImageDTO RoomImage { get; set; } = new HotelRoomImageDTO();
+    public List<string> DeletedImageNames { get; set; } = new List<string>();
 
     protected override async Task OnInitializedAsync()
     {
@@ -89,6 +90,11 @@
         {
             Title = "Update";
             HotelRoomModel = await HotelRoomRepository.GetHotelRoom(Id.Value);
+
+            if(HotelRoomModel?.HotelRoomImages != null)
+            {
+                HotelRoomModel.ImageUrls = HotelRoomModel.HotelRoomImages.Select(x => x.RoomImageUrl).ToList();
+            }
         }
         else
         {
@@ -112,6 +118,22 @@
             if (HotelRoomModel.Id != 0 && Title == "Update")
             {
                 var updateRoomResult = await HotelRoomRepository.UpdateHotelRoom(HotelRoomModel.Id, HotelRoomModel);
+
+                if ((HotelRoomModel.ImageUrls != null && HotelRoomModel.ImageUrls.Any()) ||
+                    (DeletedImageNames != null && DeletedImageNames.Any()))
+                {
+                    if (DeletedImageNames != null && DeletedImageNames.Any())
+                    {
+                        foreach (var deletedImageName in DeletedImageNames)
+                        {
+                            var imageName = deletedImageName.Replace($"RoomImages/", "");
+                            var result = FileUpload.DeleteFile(imageName);
+                            await HotelRoomImageRepository.DeleteHotelRoomImageByImageUrl(deletedImageName);
+                        }
+                    }
+                }
+
+                await AddHotelRoomImage(updateRoomResult);
                 await JsRuntime.ToastrSuccess("Hotel room updated successfully.");
 
             }
@@ -187,14 +209,42 @@
     {
         foreach (var imageUrl in HotelRoomModel.ImageUrls)
         {
-            RoomImage = new HotelRoomImageDTO()
+            if(HotelRoomModel.HotelRoomImages == null || HotelRoomModel.HotelRoomImages.Where(x=> x.RoomImageUrl == imageUrl).Count() == 0)
             {
-                RoomID = roomDetails.Id,
-                RoomImageUrl = imageUrl,
+                RoomImage = new HotelRoomImageDTO()
+                {
+                    RoomID = roomDetails.Id,
+                    RoomImageUrl = imageUrl,
 
-            };
+                };
 
-            await HotelRoomImageRepository.CreateHotelRoomImage(RoomImage);
+                await HotelRoomImageRepository.CreateHotelRoomImage(RoomImage);
+            }
+        }
+    }
+
+    internal async Task DeletePhoto(string imageUrl)
+    {
+        try
+        {
+            var imageIndex = HotelRoomModel.ImageUrls.FindIndex(x => x == imageUrl);
+            var imageName = imageUrl.Replace("RoomImages/", "");
+
+            if(HotelRoomModel.Id == 0 && Title == "Create")
+            {
+                var result = FileUpload.DeleteFile(imageName);
+            }
+            else
+            {
+                DeletedImageNames ??= new List<string>();
+                DeletedImageNames.Add(imageUrl);
+            }
+            HotelRoomModel.ImageUrls.RemoveAt(imageIndex);
+
+        }
+        catch(Exception ex)
+        {
+            await JsRuntime.ToastrError(ex.Message);
         }
     }
 }
