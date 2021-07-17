@@ -17,7 +17,7 @@ namespace HiddenVilla_Server.Service
         }
 
         public bool DeleteFile(string filename)
-        {
+        { 
             try
             {
                 var path = $"{_webHostEnvironment.WebRootPath}\\RoomImages\\{filename}";
@@ -41,7 +41,7 @@ namespace HiddenVilla_Server.Service
             {
                 FileInfo fileInfo = new FileInfo(file.Name);
                 var fileName = Guid.NewGuid().ToString() + fileInfo.Extension;
-                var folderDirectory = $"{_webHostEnvironment.WebRootPath}\\RoomImages";
+                var folderDirectory = $"{_webHostEnvironment.WebRootPath}/RoomImages";
                 var path = Path.Combine(_webHostEnvironment.WebRootPath, "RoomImages", fileName);
 
                 var memoryStream = new MemoryStream();

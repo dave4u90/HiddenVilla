@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace Models
@@ -21,5 +22,9 @@ namespace Models
         public string Details { get; set; }
         [Required(ErrorMessage = "Please enter size of the room")]
         public string SqFt { get; set; }
+
+        public virtual ICollection<HotelRoomImageDTO> HotelRoomImages { get; set; }
+
+        public List<string> ImageUrls { get; set; }
     }
 }
