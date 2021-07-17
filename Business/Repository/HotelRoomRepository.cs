@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using AutoMapper;
@@ -66,6 +67,9 @@ namespace Business.Repository
                 var roomDetails = await _db.HotelRooms.FindAsync(roomId);
                 if(roomDetails != null)
                 {
+                    var allImages = await _db.HotelRoomImages.Where(x => x.RoomID == roomId).ToListAsync();
+
+                    _db.HotelRoomImages.RemoveRange(allImages);
                     _db.HotelRooms.Remove(roomDetails);
                     return await _db.SaveChangesAsync();
                 }

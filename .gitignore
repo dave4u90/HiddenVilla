@@ -405,4 +405,4 @@ ASALocalRun/
 .localhistory/
 
 # Image files
-./HiddenVilla_Server/wwwroot/RoomImages
+HiddenVilla_Server/wwwroot/RoomImages
