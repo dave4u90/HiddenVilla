@@ -13,6 +13,8 @@
     <None Remove="AutoMapper.Extensions.Microsoft.DependencyInjection" />
     <None Remove="Pages\HotelRoom\" />
     <None Remove="Helper\" />
+    <None Remove="Service\" />
+    <None Remove="Service\IService\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
@@ -21,6 +23,8 @@
     <Folder Include="Pages\HotelRoom\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="Helper\" />
+    <Folder Include="Service\" />
+    <Folder Include="Service\IService\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
