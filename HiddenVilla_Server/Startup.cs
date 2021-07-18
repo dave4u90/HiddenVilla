@@ -39,6 +39,7 @@ namespace HiddenVilla_Server
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
             services.AddScoped<IHotelRoomRepository, HotelRoomRepository>();
             services.AddScoped<IHotelRoomImageRepository, HotelRoomImageRepository>();
+            services.AddScoped<IAmenityRepository, AmenityRepository>();
             services.AddScoped<IFileUpload, FileUpload>();
             services.AddHttpContextAccessor();
             services.AddRazorPages();

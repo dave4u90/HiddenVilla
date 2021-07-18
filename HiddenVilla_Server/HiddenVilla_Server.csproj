@@ -16,6 +16,7 @@
     <None Remove="Service\" />
     <None Remove="Service\IService\" />
     <None Remove="Blazored.TextEditor" />
+    <None Remove="Pages\HotelAmenity\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
@@ -26,6 +27,7 @@
     <Folder Include="Helper\" />
     <Folder Include="Service\" />
     <Folder Include="Service\IService\" />
+    <Folder Include="Pages\HotelAmenity\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
