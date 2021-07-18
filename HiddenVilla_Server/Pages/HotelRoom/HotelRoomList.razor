@@ -5,6 +5,8 @@
 @inject IJSRuntime JSRuntime
 @inject Service.IService.IFileUpload FileUpload
 @inject NavigationManager NavigationManager
+@attribute [Authorize(Roles = Common.SD.Role_Admin)]
+
 <div class="row mt-4">
     <div class="col-8">
         <h4 class="card-title text-info">Hotel Rooms</h4>
@@ -27,9 +29,9 @@
                 </tr>
             </thead>
             <tbody>
-                @if(HotelRooms.Any())
+                @if (HotelRooms.Any())
                 {
-                    @foreach(var room in HotelRooms)
+                    @foreach (var room in HotelRooms)
                     {
                         <tr>
                             <td>@room.Name</td>
@@ -61,8 +63,19 @@
     public int? DeleteRoomID { get; set; } = null;
     public bool IsProcessing { get; set; } = false;
 
+    [CascadingParameter]
+    public Task<AuthenticationState> AuthenticationState { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        var authenticationState = await AuthenticationState;
+
+        if (!authenticationState.User.IsInRole(Common.SD.Role_Admin))
+        {
+            var uri = new Uri(NavigationManager.Uri);
+            NavigationManager.NavigateTo($"/identity/account/login?returnUrl={uri.LocalPath}");
+        }
+
         HotelRooms = await HotelRoomRepository.GetAllHotelRooms();
     }
 
@@ -75,11 +88,11 @@
     public async Task ConfirmDelete_Click(bool isConfirmed)
     {
         IsProcessing = true;
-        if(isConfirmed && DeleteRoomID != null)
+        if (isConfirmed && DeleteRoomID != null)
         {
             HotelRoomDTO HotelRoom = await HotelRoomRepository.GetHotelRoom(DeleteRoomID.Value);
 
-            foreach(var image in HotelRoom.HotelRoomImages)
+            foreach (var image in HotelRoom.HotelRoomImages)
             {
                 var imageName = image.RoomImageUrl.Replace("{NavigationManager.BaseUri}RoomImages/", "");
                 FileUpload.DeleteFile(imageName);
