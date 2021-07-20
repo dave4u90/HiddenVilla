@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Business.Repository.IRepository;
+using Common;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Models;
@@ -12,6 +14,8 @@ using Models;
 namespace HiddenVilla_Api.Controllers
 {
     [Route("api/[controller]")]
+    [ApiController]
+    
     public class HotelRoomController : Controller
     {
         private readonly IHotelRoomRepository _hotelRoomRepository;
@@ -22,6 +26,7 @@ namespace HiddenVilla_Api.Controllers
         }
 
         [HttpGet]
+        [Authorize(Roles = SD.Role_Admin)]
         public async Task<IActionResult> GetHotelRooms()
         {
             var allRooms = await _hotelRoomRepository.GetAllHotelRooms();
