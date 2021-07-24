@@ -8,6 +8,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Blazored.LocalStorage;
+using HiddenVilla_Client.Service;
+using HiddenVilla_Client.Service.IService;
 
 namespace HiddenVilla_Client
 {
@@ -18,8 +20,10 @@ namespace HiddenVilla_Client
             var builder = WebAssemblyHostBuilder.CreateDefault(args);
             builder.RootComponents.Add<App>("#app");
 
-            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.HostEnvironment.BaseAddress) });
+            builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("BaseAPIUrl")) });
             builder.Services.AddBlazoredLocalStorage();
+            builder.Services.AddScoped<IHotelRoomService, HotelRoomService>();
+            builder.Services.AddScoped<IHotelAmenityService, HotelAmenityService>();
 
             await builder.Build().RunAsync();
         }

@@ -9,6 +9,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="5.0.8" PrivateAssets="all" />
     <PackageReference Include="System.Net.Http.Json" Version="5.0.0" />
     <PackageReference Include="Blazored.LocalStorage" Version="4.1.2" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
   </ItemGroup>
 
   <ItemGroup>
@@ -17,6 +18,9 @@
     <None Remove="Model\ViewModel\" />
     <None Remove="Blazored.LocalStorage" />
     <None Remove="Pages\HotelRooms\" />
+    <None Remove="Service\" />
+    <None Remove="Service\IService\" />
+    <None Remove="Newtonsoft.Json" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helper\" />
@@ -24,13 +28,25 @@
     <Folder Include="Model\" />
     <Folder Include="Model\ViewModel\" />
     <Folder Include="Pages\HotelRooms\" />
+    <Folder Include="Service\" />
+    <Folder Include="Service\IService\" />
+    <Folder Include="wwwroot\js\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
+    <Content Remove="wwwroot\js\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Common\Common.csproj">
       <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
     </ProjectReference>
+    <ProjectReference Include="..\Models\Models.csproj">
+      <GlobalPropertiesToRemove></GlobalPropertiesToRemove>
+    </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Update="wwwroot\appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 </Project>
