@@ -2,7 +2,7 @@
 
 namespace DataAccess.Migrations
 {
-    public partial class AddDiscriminatorToUser : Migration
+    public partial class AddDiscriminatorToUserToDb : Migration
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {

@@ -46,7 +46,7 @@ namespace DataAccess.Migrations
                     .IsRequired()
                     .HasColumnType("nvarchar(max)");
 
-                b.Property<string>("Timming")
+                b.Property<string>("Timing")
                     .IsRequired()
                     .HasColumnType("nvarchar(max)");
 
@@ -108,7 +108,7 @@ namespace DataAccess.Migrations
                     .HasColumnType("int")
                     .UseIdentityColumn();
 
-                b.Property<int>("RoomId")
+                b.Property<int>("RoomID")
                     .HasColumnType("int");
 
                 b.Property<string>("RoomImageUrl")
@@ -116,7 +116,7 @@ namespace DataAccess.Migrations
 
                 b.HasKey("Id");
 
-                b.HasIndex("RoomId");
+                b.HasIndex("RoomID");
 
                 b.ToTable("HotelRoomImages");
             });
@@ -337,7 +337,7 @@ namespace DataAccess.Migrations
             {
                 b.HasOne("DataAcesss.Data.HotelRoom", "HotelRoom")
                     .WithMany("HotelRoomImages")
-                    .HasForeignKey("RoomId")
+                    .HasForeignKey("RoomID")
                     .OnDelete(DeleteBehavior.Cascade)
                     .IsRequired();
 
