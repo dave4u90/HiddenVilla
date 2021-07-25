@@ -8,6 +8,7 @@ namespace Common
         public const string Role_Employee = "Employee";
 
         public const string Local_InitialRoomBooking = "InitialRoomBookingInfo";
+        public const string Local_RoomOrderDetails = "RoomOrderDetails";
 
         public const string Status_Pending = "Pending";
         public const string Status_Booked = "Booked";

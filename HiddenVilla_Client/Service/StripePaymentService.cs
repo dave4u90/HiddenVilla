@@ -8,31 +8,25 @@ using Newtonsoft.Json;
 
 namespace HiddenVilla_Client.Service
 {
-    public class RoomOrderDetailsService : IRoomOrderDetailsService
+    public class StripePaymentService : IStripePaymentService
     {
         private readonly HttpClient _client;
 
-        public RoomOrderDetailsService(HttpClient client)
+        public StripePaymentService(HttpClient client)
         {
             _client = client;
         }
 
-        public Task<RoomOrderDetailsDTO> MarkPaymentSuccessful(RoomOrderDetailsDTO details)
+        public async Task<SuccessModel> CheckOut(StripePaymentDTO model)
         {
-            throw new NotImplementedException();
-        }
-
-        public async Task<RoomOrderDetailsDTO> SaveRoomOrderDetails(RoomOrderDetailsDTO details)
-        {
-            details.UserId = "dummy user";
-            var content = JsonConvert.SerializeObject(details);
+            var content = JsonConvert.SerializeObject(model);
             var bodyContent = new StringContent(content, Encoding.UTF8, "application/json");
-            var response = await _client.PostAsync("api/roomorder/create", bodyContent);
-            string res = response.Content.ReadAsStringAsync().Result;
+            var response = await _client.PostAsync("api/stripepayment/create", bodyContent);
+
             if (response.IsSuccessStatusCode)
             {
                 var contentTemp = await response.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<RoomOrderDetailsDTO>(contentTemp);
+                var result = JsonConvert.DeserializeObject<SuccessModel>(contentTemp);
                 return result;
             }
             else
