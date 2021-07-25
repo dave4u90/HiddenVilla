@@ -16,5 +16,9 @@ namespace Common
         public const string Status_CheckedOut_Completed = "CheckedOut";
         public const string Status_NoShow = "NoShow";
         public const string Status_Cancelled = "Cancelled";
+
+        public const string Stripe_Paid = "paid";
+        public const string Stripe_Unpaid = "unpaid";
+        public const string Stripe_No_Payment_Required = "no_payment_required";
     }
 }
