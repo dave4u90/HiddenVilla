@@ -38,6 +38,16 @@ namespace Business.Repository
             {
                 IEnumerable<HotelRoomDTO> hotelRoomDTOs =
                              _mapper.Map<IEnumerable<HotelRoom>, IEnumerable<HotelRoomDTO>>(_db.HotelRooms.Include(x => x.HotelRoomImages));
+
+                
+                if (!String.IsNullOrEmpty(checkOutDateStr) && !String.IsNullOrEmpty(checkInDateStr))
+                {
+                    foreach (var hotelRoomDTO in hotelRoomDTOs)
+                    {
+                        hotelRoomDTO.IsBooked = await IsRoomBooked(hotelRoomDTO.Id, checkInDateStr, checkOutDateStr);
+                    }
+                }
+                
                 return hotelRoomDTOs;
             }
             catch (Exception ex)
@@ -52,6 +62,12 @@ namespace Business.Repository
             {
                 HotelRoomDTO hotelRoomDTO = _mapper.Map<HotelRoom, HotelRoomDTO>(
                     await _db.HotelRooms.Include(x=> x.HotelRoomImages).FirstOrDefaultAsync(x => x.Id == roomId));
+
+                if (!String.IsNullOrEmpty(checkOutDateStr) && !String.IsNullOrEmpty(checkInDateStr))
+                {
+                    hotelRoomDTO.IsBooked = await IsRoomBooked(roomId, checkInDateStr, checkOutDateStr);
+                }
+
                 return hotelRoomDTO;
             }
             catch (Exception ex)
@@ -129,5 +145,36 @@ namespace Business.Repository
             }
             
         }
+
+        public async Task<bool> IsRoomBooked(int roomId, string checkInDateStr, string checkOutDateStr)
+        {
+            try
+            {
+                if(!String.IsNullOrEmpty(checkOutDateStr) && !String.IsNullOrEmpty(checkInDateStr))
+                {
+                    DateTime checkInDate = DateTime.ParseExact(checkInDateStr, "MM/dd/yyyy", null);
+                    DateTime checkOutDate = DateTime.ParseExact(checkOutDateStr, "MM/dd/yyyy", null);
+
+                    var existingBooking = await _db.RoomOrderDetails.Where(x => x.RoomId == roomId && x.IsPaymentSuccessful &&
+                    //check if checkin date that user wants does not fall in between any dates for room that is booked
+                    ((checkInDate < x.CheckOutDate && checkInDate.Date >= x.CheckInDate)
+                    //check if checkout date that user wants does not fall in between any dates for room that is booked
+                    || (checkOutDate.Date > x.CheckInDate.Date && checkInDate.Date <= x.CheckInDate.Date)
+                    )).FirstOrDefaultAsync();
+
+                    if(existingBooking != null)
+                    {
+                        return true;
+                    }
+                    return false;
+                }
+                return true;
+            }
+            catch(Exception e)
+            {
+                throw e;
+            }
+        }
+
     }
 }
