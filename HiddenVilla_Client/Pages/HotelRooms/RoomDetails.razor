@@ -216,7 +216,7 @@ else {
             {
                 Amount = Convert.ToInt32(HotelBooking.OrderDetails.HotelRoomDTO.TotalAmount * 100),
                 ProductName = HotelBooking.OrderDetails.HotelRoomDTO.Name,
-                ReturnUrl = "/hotel/room-details" + Id
+                ReturnUrl = "hotel/room-details/" + Id
             };
 
             var result = await stripePaymentService.CheckOut(paymentDTO);
