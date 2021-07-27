@@ -22,6 +22,7 @@
     <None Remove="Service\IService\" />
     <None Remove="Newtonsoft.Json" />
     <None Remove="Pages\Stripe\" />
+    <None Remove="Pages\Authentication\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helper\" />
@@ -33,6 +34,7 @@
     <Folder Include="Service\IService\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="Pages\Stripe\" />
+    <Folder Include="Pages\Authentication\" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\images\" />
