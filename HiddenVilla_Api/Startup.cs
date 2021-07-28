@@ -13,6 +13,7 @@ using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
@@ -45,6 +46,8 @@ namespace HiddenVilla_Api
             var appSettingsSection = Configuration.GetSection("APISettings");
             services.Configure<APISettings>(appSettingsSection);
 
+            services.Configure<MailJetSettings>(Configuration.GetSection("MailJetSettings"));
+
             var apiSettings = appSettingsSection.Get<APISettings>();
             var key = Encoding.ASCII.GetBytes(apiSettings.SecretKey);
 
@@ -73,6 +76,7 @@ namespace HiddenVilla_Api
             services.AddScoped<IHotelRoomImageRepository, HotelRoomImageRepository>();
             services.AddScoped<IAmenityRepository, AmenityRepository>();
             services.AddScoped<IRoomOrderDetailsRepository, RoomOrderDetailsRepository>();
+            services.AddScoped<IEmailSender, EmailSender>();
 
             services.AddCors(o=> o.AddPolicy("HiddenVilla", builder=> {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();

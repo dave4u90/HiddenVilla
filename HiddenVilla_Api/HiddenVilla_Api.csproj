@@ -24,6 +24,8 @@
     <None Remove="Microsoft.AspNetCore.Authentication.JwtBearer" />
     <None Remove="Microsoft.AspNetCore.Mvc.NewtonsoftJson" />
     <None Remove="Stripe.net" />
+    <None Remove="Microsoft.AspNetCore.Identity.UI" />
+    <None Remove="Mailjet.Api" />
   </ItemGroup>
   <ItemGroup>
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.1.4" />
@@ -36,6 +38,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Mvc.NewtonsoftJson" Version="5.0.8" />
     <PackageReference Include="Stripe.net" Version="39.61.0" />
+    <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.8" />
+    <PackageReference Include="Mailjet.Api" Version="2.0.2" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Helper\" />
