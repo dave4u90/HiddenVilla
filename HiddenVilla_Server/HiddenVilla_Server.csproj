@@ -20,6 +20,9 @@
     <None Remove="Microsoft.AspNetCore.Identity.EntityFrameworkCore" />
     <None Remove="Microsoft.AspNetCore.Identity.UI" />
     <None Remove="Microsoft.VisualStudio.Web.CodeGeneration.Design" />
+    <None Remove="Microsoft.AspNetCore.Components.ProtectedBrowserStorage" />
+    <None Remove="Radzen.Blazor" />
+    <None Remove="Pages\HotelRoomOrder\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
@@ -31,6 +34,7 @@
     <Folder Include="Service\" />
     <Folder Include="Service\IService\" />
     <Folder Include="Pages\HotelAmenity\" />
+    <Folder Include="Pages\HotelRoomOrder\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">
@@ -58,6 +62,8 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="5.0.8" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
+    <PackageReference Include="Microsoft.AspNetCore.Components.ProtectedBrowserStorage" Version="5.0.0-rc.1.20451.17" />
+    <PackageReference Include="Radzen.Blazor" Version="3.7.3" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\" />
