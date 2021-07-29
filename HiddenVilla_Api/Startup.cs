@@ -28,9 +28,9 @@ namespace HiddenVilla_Api
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders();
 
-            services.AddAppSettings(Configuration);
-            services.AddAuthenticationSettings();
-            services.AddApplicationServices();
+            services.AddAppSettings(Configuration).
+                AddAuthenticationSettings().
+                AddApplicationServices();
 
             services.AddCors(o=> o.AddPolicy("HiddenVilla", builder=> {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();
