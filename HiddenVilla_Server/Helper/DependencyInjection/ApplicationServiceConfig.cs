@@ -4,6 +4,7 @@ using Business.Repository.IRepository;
 using HiddenVilla_Server.Service;
 using HiddenVilla_Server.Service.IService;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
 
 namespace HiddenVilla_Server.Helper.DependencyInjection
 {
@@ -12,12 +13,12 @@ namespace HiddenVilla_Server.Helper.DependencyInjection
         public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddScoped<IHotelRoomRepository, HotelRoomRepository>();
-            services.AddScoped<IHotelRoomImageRepository, HotelRoomImageRepository>();
-            services.AddScoped<IAmenityRepository, AmenityRepository>();
-            services.AddScoped<IRoomOrderDetailsRepository, RoomOrderDetailsRepository>();
-            services.AddScoped<IDbInitializer, DbInitializer>();
-            services.AddScoped<IFileUpload, FileUpload>();
+            services.TryAddScoped<IHotelRoomRepository, HotelRoomRepository>();
+            services.TryAddScoped<IHotelRoomImageRepository, HotelRoomImageRepository>();
+            services.TryAddScoped<IAmenityRepository, AmenityRepository>();
+            services.TryAddScoped<IRoomOrderDetailsRepository, RoomOrderDetailsRepository>();
+            services.TryAddScoped<IDbInitializer, DbInitializer>();
+            services.TryAddScoped<IFileUpload, FileUpload>();
 
             return services;
         }
