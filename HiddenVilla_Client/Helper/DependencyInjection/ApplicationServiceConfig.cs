@@ -9,7 +9,7 @@ namespace HiddenVilla_Client.Helper.DependencyInjection
 {
     public static class ApplicationServiceConfig
     {
-        public static IServiceCollection AddApplicationServiceSettings(this IServiceCollection services)
+        public static IServiceCollection AddApplicationServices(this IServiceCollection services)
         {
             services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
             services.AddScoped<IHotelRoomService, HotelRoomService>();

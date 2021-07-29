@@ -1,10 +1,11 @@
 ﻿using System;
 using Business.Repository;
 using Business.Repository.IRepository;
-using Microsoft.AspNetCore.Identity.UI.Services;
+using HiddenVilla_Server.Service;
+using HiddenVilla_Server.Service.IService;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace HiddenVilla_Api.Helper.DependencyInjection
+namespace HiddenVilla_Server.Helper.DependencyInjection
 {
     public static class ApplicationServiceConfig
     {
@@ -15,7 +16,8 @@ namespace HiddenVilla_Api.Helper.DependencyInjection
             services.AddScoped<IHotelRoomImageRepository, HotelRoomImageRepository>();
             services.AddScoped<IAmenityRepository, AmenityRepository>();
             services.AddScoped<IRoomOrderDetailsRepository, RoomOrderDetailsRepository>();
-            services.AddScoped<IEmailSender, EmailSender>();
+            services.AddScoped<IDbInitializer, DbInitializer>();
+            services.AddScoped<IFileUpload, FileUpload>();
 
             return services;
         }

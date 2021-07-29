@@ -19,7 +19,7 @@ namespace HiddenVilla_Client
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("BaseAPIUrl")) });
             builder.Services.AddBlazoredLocalStorage();
 
-            builder.Services.AddApplicationServiceSettings();
+            builder.Services.AddApplicationServices();
 
             builder.Services.AddAuthorizationCore();
 

@@ -30,7 +30,7 @@ namespace HiddenVilla_Api
 
             services.AddAppSettings(Configuration);
             services.AddAuthenticationSettings();
-            services.AddApplicationServiceSettings();
+            services.AddApplicationServices();
 
             services.AddCors(o=> o.AddPolicy("HiddenVilla", builder=> {
                 builder.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader();

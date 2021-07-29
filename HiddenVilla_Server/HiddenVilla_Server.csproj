@@ -23,6 +23,7 @@
     <None Remove="Microsoft.AspNetCore.Components.ProtectedBrowserStorage" />
     <None Remove="Radzen.Blazor" />
     <None Remove="Pages\HotelRoomOrder\" />
+    <None Remove="Helper\DependencyInjection\" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Model\" />
@@ -35,6 +36,7 @@
     <Folder Include="Service\IService\" />
     <Folder Include="Pages\HotelAmenity\" />
     <Folder Include="Pages\HotelRoomOrder\" />
+    <Folder Include="Helper\DependencyInjection\" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DataAccess\DataAccess.csproj">

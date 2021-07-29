@@ -1,23 +1,15 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
-using Microsoft.AspNetCore.Components;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using HiddenVilla_Server.Data;
 using DataAccess.Data;
 using Microsoft.EntityFrameworkCore;
-using Business.Repository.IRepository;
-using Business.Repository;
 using System.Globalization;
 using HiddenVilla_Server.Service.IService;
-using HiddenVilla_Server.Service;
 using Microsoft.AspNetCore.Identity;
+using HiddenVilla_Server.Helper.DependencyInjection;
 
 namespace HiddenVilla_Server
 {
@@ -40,13 +32,9 @@ namespace HiddenVilla_Server
             services.AddIdentity<IdentityUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders()
                 .AddDefaultUI();
-            services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
-            services.AddScoped<IHotelRoomRepository, HotelRoomRepository>();
-            services.AddScoped<IHotelRoomImageRepository, HotelRoomImageRepository>();
-            services.AddScoped<IAmenityRepository, AmenityRepository>();
-            services.AddScoped<IRoomOrderDetailsRepository, RoomOrderDetailsRepository>();
-            services.AddScoped<IDbInitializer, DbInitializer>();
-            services.AddScoped<IFileUpload, FileUpload>();
+
+            services.AddApplicationServices();
+
             services.AddHttpContextAccessor();
             services.AddRazorPages();
             services.AddServerSideBlazor();
