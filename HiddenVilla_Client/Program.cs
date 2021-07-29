@@ -1,16 +1,11 @@
 ﻿using System;
 using System.Net.Http;
-using System.Collections.Generic;
 using System.Threading.Tasks;
-using System.Text;
 using Microsoft.AspNetCore.Components.WebAssembly.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Logging;
 using Blazored.LocalStorage;
-using HiddenVilla_Client.Service;
-using HiddenVilla_Client.Service.IService;
-using Microsoft.AspNetCore.Components.Authorization;
+using HiddenVilla_Client.Helper.DependencyInjection;
 
 namespace HiddenVilla_Client
 {
@@ -24,13 +19,9 @@ namespace HiddenVilla_Client
             builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(builder.Configuration.GetValue<string>("BaseAPIUrl")) });
             builder.Services.AddBlazoredLocalStorage();
 
+            builder.Services.AddApplicationServiceSettings();
+
             builder.Services.AddAuthorizationCore();
-            builder.Services.AddScoped<AuthenticationStateProvider, AuthStateProvider>();
-            builder.Services.AddScoped<IHotelRoomService, HotelRoomService>();
-            builder.Services.AddScoped<IHotelAmenityService, HotelAmenityService>();
-            builder.Services.AddScoped<IRoomOrderDetailsService, RoomOrderDetailsService>();
-            builder.Services.AddScoped<IStripePaymentService, StripePaymentService>();
-            builder.Services.AddScoped<IAuthenticationService, AuthenticationService>();
 
             await builder.Build().RunAsync();
         }
