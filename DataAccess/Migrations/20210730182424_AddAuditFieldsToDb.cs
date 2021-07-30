@@ -7,13 +7,6 @@ namespace DataAccess.Migrations
     {
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.AddColumn<string>(
-                name: "CreatedBy",
-                table: "RoomOrderDetails",
-                type: "nvarchar(max)",
-                nullable: false,
-                defaultValue: "");
-
             migrationBuilder.AddColumn<DateTime>(
                 name: "CreatedDate",
                 table: "RoomOrderDetails",
