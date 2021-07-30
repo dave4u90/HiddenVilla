@@ -3,25 +3,16 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Data
 {
-    public class HotelAmenity
+    public class HotelAmenity : BaseEntity
     {
-        public HotelAmenity()
-        {
-
-        }
-        [Key]
         public int Id { get; set; }
-        [Required(ErrorMessage = "Please enter amenity name")]
+        [Required]
         public string Name { get; set; }
-        [Required(ErrorMessage = "Please enter amenity timming")]
+        [Required]
         public string Timing { get; set; }
-        [Required(ErrorMessage = "Please enter amenity description")]
+        [Required]
         public string Description { get; set; }
         [Required(ErrorMessage = "Please enter amenity icon from font awesome")]
         public string IconStyle { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; }
-        public string UpdatedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }
     }
 }

@@ -4,12 +4,8 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace DataAccess.Data
 {
-    public class RoomOrderDetails
+    public class RoomOrderDetails : BaseEntity
     {
-        public RoomOrderDetails()
-        {
-        }
-
         public int Id { get; set; }
         [Required]
         public string UserId { get; set; }
@@ -32,8 +28,10 @@ namespace DataAccess.Data
         [Required]
         public string Email { get; set; } 
         public string Phone { get; set; }
+        public string Status { get; set; }
+
+
         [ForeignKey("RoomId")]
         public HotelRoom HotelRoom { get; set; }
-        public string Status { get; set; }
     }
 }

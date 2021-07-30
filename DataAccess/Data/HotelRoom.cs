@@ -4,13 +4,8 @@ using System.ComponentModel.DataAnnotations;
 
 namespace DataAccess.Data
 {
-    public class HotelRoom
+    public class HotelRoom : BaseEntity
     {
-        public HotelRoom()
-        {
-        }
-
-        [Key]
         public int Id { get; set; }
         [Required]
         public string Name { get; set; }
@@ -18,12 +13,10 @@ namespace DataAccess.Data
         public int Occupancy { get; set; }
         [Required]
         public double RegularRate { get; set; }
+        [Required]
         public string Details { get; set; }
+        [Required]
         public string SqFt { get; set; }
-        public string CreatedBy { get; set; }
-        public DateTime CreatedDate { get; set; } = DateTime.Now;
-        public string UpdatedBy { get; set; }
-        public DateTime UpdatedDate { get; set; }
 
         public virtual ICollection<HotelRoomImage> HotelRoomImages { get; set; }
     }

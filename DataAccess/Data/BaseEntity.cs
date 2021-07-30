@@ -1,15 +1,16 @@
 ﻿using System;
+using System.ComponentModel.DataAnnotations;
 using Common;
-using Microsoft.AspNetCore.Identity;
 
 namespace DataAccess.Data
 {
-    public class ApplicationUser : IdentityUser
+    public class BaseEntity
     {
-        public string Name { get; set; }
-        public string CreatedBy { get; set; } = SD.HiddenVilla_Client;
+        [Required]
+        public string CreatedBy { get; set; } = SD.Role_Admin;
+        [Required]
         public DateTime CreatedDate { get; set; }
-        public string UpdatedBy { get; set; } = SD.HiddenVilla_Client;
+        public string UpdatedBy { get; set; } = SD.Role_Admin;
         public DateTime UpdatedDate { get; set; }
         public string DeletedBy { get; set; } = SD.Role_Admin;
         public DateTime DeletedDate { get; set; }
