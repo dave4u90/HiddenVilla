@@ -10,6 +10,9 @@ using System.Globalization;
 using HiddenVilla_Server.Service.IService;
 using Microsoft.AspNetCore.Identity;
 using HiddenVilla_Server.Helper.DependencyInjection;
+using HiddenVilla_Server.Service;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using DataAccess.Service;
 
 namespace HiddenVilla_Server
 {
@@ -29,17 +32,18 @@ namespace HiddenVilla_Server
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddDbContext<ApplicationDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
-            services.AddIdentity<IdentityUser, IdentityRole>()
+            services.AddIdentity<AdminUser, IdentityRole>()
                 .AddEntityFrameworkStores<ApplicationDbContext>().AddDefaultTokenProviders()
                 .AddDefaultUI();
 
+            services.AddHttpContextAccessor();
+            services.TryAddTransient<IUserResolverService, UserResolverService>();
+
             services.AddApplicationServices();
 
-            services.AddHttpContextAccessor();
             services.AddRazorPages();
             services.AddServerSideBlazor();
             services.AddSingleton<WeatherForecastService>();
-
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

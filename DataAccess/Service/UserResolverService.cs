@@ -15,8 +15,7 @@ namespace DataAccess.Service
 
         public string GetCurrentUserName()
         {
-            var username = _accessor?.HttpContext?.User?.Identity?.Name;
-            return username ?? SD.Role_Admin;
+           return _accessor?.HttpContext?.User?.Identity?.Name;
         }
     }
 }

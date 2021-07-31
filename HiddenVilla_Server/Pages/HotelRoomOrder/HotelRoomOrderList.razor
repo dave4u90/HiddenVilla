@@ -5,13 +5,13 @@
 @inject IRoomOrderDetailsRepository roomOrderDetailRepository
 @inject IJSRuntime jsRuntime
 @inject NavigationManager navigationManager
+@attribute [Authorize(Roles = Common.SD.Role_Admin)]
 
 @if (!IsLoading)
 {
     <h4 class="card-title text-info">Hotel Room Orders</h4>
 
-    <RadzenDataGrid
-                    AllowFiltering="true"
+    <RadzenDataGrid AllowFiltering="true"
                     FilterCaseSensitivity="FilterCaseSensitivity.CaseInsensitive    "
                     AllowColumnResize="true"
                     FilterMode="FilterMode.Advanced"
@@ -20,8 +20,7 @@
                     AllowSorting="true"
                     Data="@HotelRoomOrders"
                     TItem="RoomOrderDetailsDTO"
-                    ColumnWidth="200px"
-                    >
+                    ColumnWidth="200px">
         <Columns>
             <RadzenDataGridColumn TItem="RoomOrderDetailsDTO" Property="Name" Title="Customer Name" />
             <RadzenDataGridColumn TItem="RoomOrderDetailsDTO" Property="Phone" Title="Phone Number" />

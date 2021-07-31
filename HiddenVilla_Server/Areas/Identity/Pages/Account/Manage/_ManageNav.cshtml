@@ -1,4 +1,6 @@
-@inject SignInManager<IdentityUser> SignInManager
+@using DataAccess.Data
+
+@inject SignInManager<AdminUser> SignInManager
 @{
     var hasExternalLogins = (await SignInManager.GetExternalAuthenticationSchemesAsync()).Any();
 }

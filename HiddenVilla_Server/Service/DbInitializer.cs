@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using Common;
 using DataAccess.Data;
 using HiddenVilla_Server.Service.IService;
@@ -11,10 +12,10 @@ namespace HiddenVilla_Server.Service
     public class DbInitializer : IDbInitializer
     {
         private readonly ApplicationDbContext _db;
-        private readonly UserManager<IdentityUser> _userManager;
+        private readonly UserManager<AdminUser> _userManager;
         private readonly RoleManager<IdentityRole> _roleManager;
 
-        public DbInitializer(ApplicationDbContext db, UserManager<IdentityUser> userManager, RoleManager<IdentityRole> roleManager)
+        public DbInitializer(ApplicationDbContext db, UserManager<AdminUser> userManager, RoleManager<IdentityRole> roleManager)
         {
             _db = db;
             _userManager = userManager;
@@ -41,14 +42,17 @@ namespace HiddenVilla_Server.Service
             _roleManager.CreateAsync(new IdentityRole(SD.Role_Customer)).GetAwaiter().GetResult();
             _roleManager.CreateAsync(new IdentityRole(SD.Role_Employee)).GetAwaiter().GetResult();
 
-            _userManager.CreateAsync(new IdentityUser
+            var adminUser = new AdminUser
             {
                 UserName = "dave4u90@gmail.com",
                 Email = "dave4u90@gmail.com",
-                EmailConfirmed = true
-            }, "Admin123*").GetAwaiter().GetResult();
+                EmailConfirmed = true,
+                Name = "HiddenVilla Admin"
+            };
 
-            IdentityUser user = _db.Users.FirstOrDefault(x => x.Email == "dave4u90@gmail.com");
+            _userManager.CreateAsync(adminUser, "Admin123*").GetAwaiter().GetResult();
+
+            AdminUser user = _userManager.FindByNameAsync(adminUser.UserName).GetAwaiter().GetResult();
             _userManager.AddToRoleAsync(user, SD.Role_Admin).GetAwaiter().GetResult();
         }
     }

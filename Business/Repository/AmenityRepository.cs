@@ -23,8 +23,6 @@ namespace Business.Repository
         public async Task<HotelAmenityDTO> CreateHotelAmenity(HotelAmenityDTO hotelAmenity)
         {
             var amenity = _mapper.Map<HotelAmenityDTO, HotelAmenity>(hotelAmenity);
-            amenity.CreatedBy = "";
-            amenity.CreatedDate = DateTime.UtcNow;
             var addedHotelAmenity = await _db.HotelAmenities.AddAsync(amenity);
             await _db.SaveChangesAsync();
             return _mapper.Map<HotelAmenity, HotelAmenityDTO>(addedHotelAmenity.Entity);

@@ -2,6 +2,7 @@
 using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
+using Common;
 using DataAccess.Service;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
@@ -18,7 +19,7 @@ namespace DataAccess.Data
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IUserResolverService userResolverService) : base(options)
         {
             _userResolverService = userResolverService;
-            _currentUserName = _userResolverService.GetCurrentUserName();
+            _currentUserName = _userResolverService.GetCurrentUserName();   
         }
 
         public override int SaveChanges(bool acceptAllChangesOnSuccess)
@@ -35,7 +36,7 @@ namespace DataAccess.Data
 
         public void OnBeforeSaving(string currentUserName)
         {
-            object x = null;
+            string userName = String.IsNullOrEmpty(_currentUserName) ? SD.Role_Admin : _currentUserName;
             var entries = ChangeTracker
             .Entries()
             .Where(e =>
@@ -51,14 +52,14 @@ namespace DataAccess.Data
                         case EntityState.Added:
                             entityEntry.Property("CreatedDate").CurrentValue = DateTime.UtcNow;
                             entityEntry.Property("UpdatedDate").CurrentValue = DateTime.UtcNow;
-                            entityEntry.Property("CreatedBy").CurrentValue = currentUserName;
+                            entityEntry.Property("CreatedBy").CurrentValue = userName;
                             break;
                         case EntityState.Modified:
                             entityEntry.Property("UpdatedDate").CurrentValue = DateTime.UtcNow;
-                            entityEntry.Property("UpdatedBy").CurrentValue = currentUserName;
+                            entityEntry.Property("UpdatedBy").CurrentValue = userName;
                             break;
                         case EntityState.Deleted:
-                            entityEntry.Property("DeletedBy").CurrentValue = currentUserName;
+                            entityEntry.Property("DeletedBy").CurrentValue = userName;
                             entityEntry.Property("DeletedDate").CurrentValue = DateTime.UtcNow;
                             break;
 
