@@ -51,7 +51,6 @@ namespace DataAccess.Data
                     {
                         case EntityState.Added:
                             entityEntry.Property("CreatedDate").CurrentValue = DateTime.UtcNow;
-                            entityEntry.Property("UpdatedDate").CurrentValue = DateTime.UtcNow;
                             entityEntry.Property("CreatedBy").CurrentValue = userName;
                             break;
                         case EntityState.Modified:

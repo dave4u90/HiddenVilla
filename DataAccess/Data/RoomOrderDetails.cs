@@ -15,8 +15,6 @@ namespace DataAccess.Data
         public DateTime CheckInDate { get; set; }
         [Required]
         public DateTime CheckOutDate { get; set; }
-        public DateTime ActualCheckInDate { get; set; }
-        public DateTime ActualCheckOutDate { get; set; }
         [Required]
         public double TotalCost { get; set; }
         [Required]
@@ -27,8 +25,14 @@ namespace DataAccess.Data
         public string Name { get; set; }
         [Required]
         public string Email { get; set; } 
-        public string Phone { get; set; }
+        [Required]
         public string Status { get; set; }
+
+#nullable enable
+        public DateTime? ActualCheckInDate { get; set; }
+        public DateTime? ActualCheckOutDate { get; set; }
+        public string? Phone { get; set; }
+#nullable disable
 
 
         [ForeignKey("RoomId")]

@@ -37,7 +37,7 @@ namespace HiddenVilla_Server
                 .AddDefaultUI();
 
             services.AddHttpContextAccessor();
-            services.TryAddTransient<IUserResolverService, UserResolverService>();
+            services.TryAddScoped<IUserResolverService, UserResolverService>();
 
             services.AddApplicationServices();
 
