@@ -58,6 +58,7 @@ namespace DataAccess.Data
                             entityEntry.Property("UpdatedBy").CurrentValue = userName;
                             break;
                         case EntityState.Deleted:
+                            entityEntry.State = EntityState.Modified;
                             entityEntry.Property("DeletedBy").CurrentValue = userName;
                             entityEntry.Property("DeletedDate").CurrentValue = DateTime.UtcNow;
                             break;
@@ -70,6 +71,16 @@ namespace DataAccess.Data
                 }
                 
             }
+        }
+
+        protected override void OnModelCreating(ModelBuilder builder)
+        {
+            base.OnModelCreating(builder);
+
+            builder.Entity<HotelRoom>().HasQueryFilter(x => String.IsNullOrEmpty(x.DeletedBy));
+            builder.Entity<HotelRoomImage>().HasQueryFilter(x => String.IsNullOrEmpty(x.DeletedBy));
+            builder.Entity<HotelAmenity>().HasQueryFilter(x => String.IsNullOrEmpty(x.DeletedBy));
+            builder.Entity<RoomOrderDetails>().HasQueryFilter(x => String.IsNullOrEmpty(x.DeletedBy));
         }
 
         public DbSet<HotelRoom> HotelRooms { get; set; }
