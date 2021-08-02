@@ -4,9 +4,6 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <None Remove="Model\" />
-    <None Remove="Pages\LearnBlazor\" />
-    <None Remove="Pages\LearnBlazor\LearnBlazorComponent\" />
     <None Remove="Microsoft.EntityFrameworkCore.SqlServer" />
     <None Remove="Microsoft.EntityFrameworkCore.Design" />
     <None Remove="AutoMapper" />
@@ -26,9 +23,6 @@
     <None Remove="Helper\DependencyInjection\" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="Model\" />
-    <Folder Include="Pages\LearnBlazor\" />
-    <Folder Include="Pages\LearnBlazor\LearnBlazorComponent\" />
     <Folder Include="Pages\HotelRoom\" />
     <Folder Include="wwwroot\js\" />
     <Folder Include="Helper\" />
@@ -65,7 +59,7 @@
     <PackageReference Include="Microsoft.AspNetCore.Identity.UI" Version="5.0.8" />
     <PackageReference Include="Microsoft.VisualStudio.Web.CodeGeneration.Design" Version="5.0.2" />
     <PackageReference Include="Microsoft.AspNetCore.Components.ProtectedBrowserStorage" Version="5.0.0-rc.1.20451.17" />
-    <PackageReference Include="Radzen.Blazor" Version="3.7.3" />
+    <PackageReference Include="Radzen.Blazor" Version="3.8.0" />
   </ItemGroup>
   <ItemGroup>
     <Content Remove="wwwroot\js\" />

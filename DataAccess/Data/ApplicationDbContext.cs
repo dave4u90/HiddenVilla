@@ -8,6 +8,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Logging.Debug;
 
 namespace DataAccess.Data
 {
@@ -15,6 +17,16 @@ namespace DataAccess.Data
     {
         private readonly string _currentUserName;
         private readonly IUserResolverService _userResolverService;
+
+        public static readonly ILoggerFactory loggerFactory = new LoggerFactory(new[] {
+              new DebugLoggerProvider()
+        });
+
+        protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
+        {
+            optionsBuilder.UseLoggerFactory(loggerFactory)
+                .EnableSensitiveDataLogging();
+        }
 
         public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options, IUserResolverService userResolverService) : base(options)
         {
@@ -58,9 +70,10 @@ namespace DataAccess.Data
                             entityEntry.Property("UpdatedBy").CurrentValue = userName;
                             break;
                         case EntityState.Deleted:
-                            entityEntry.State = EntityState.Modified;
+                            //entityEntry.State = EntityState.Modified;
                             entityEntry.Property("DeletedBy").CurrentValue = userName;
                             entityEntry.Property("DeletedDate").CurrentValue = DateTime.UtcNow;
+                            entityEntry.State = EntityState.Modified;
                             break;
 
                     }

@@ -24,12 +24,17 @@ namespace Business.Repository
 
         public async Task<HotelRoomDTO> CreateHotelRoom(HotelRoomDTO hotelRoomDTO)
         {
-            HotelRoom hotelRoom = _mapper.Map<HotelRoomDTO, HotelRoom>(hotelRoomDTO);
-            hotelRoom.CreatedDate = DateTime.Now;
-            hotelRoom.CreatedBy = "";
-            var addedHotelRoom = await _db.HotelRooms.AddAsync(hotelRoom);
-            await _db.SaveChangesAsync();
-            return _mapper.Map<HotelRoom, HotelRoomDTO>(addedHotelRoom.Entity);
+            try
+            {
+                HotelRoom hotelRoom = _mapper.Map<HotelRoomDTO, HotelRoom>(hotelRoomDTO);
+                var addedHotelRoom = await _db.HotelRooms.AddAsync(hotelRoom);
+                await _db.SaveChangesAsync();
+                return _mapper.Map<HotelRoom, HotelRoomDTO>(addedHotelRoom.Entity);
+            }
+            catch(Exception e)
+            {
+                return null;
+            }
         }
 
         public async Task<IEnumerable<HotelRoomDTO>> GetAllHotelRooms(string checkInDateStr, string checkOutDateStr)
@@ -37,7 +42,7 @@ namespace Business.Repository
             try
             {
                 IEnumerable<HotelRoomDTO> hotelRoomDTOs =
-                             _mapper.Map<IEnumerable<HotelRoom>, IEnumerable<HotelRoomDTO>>(_db.HotelRooms.Include(x => x.HotelRoomImages));
+                             _mapper.Map<IEnumerable<HotelRoom>, IEnumerable<HotelRoomDTO>>(_db.HotelRooms.AsNoTracking().Include(x => x.HotelRoomImages));
 
                 
                 if (!String.IsNullOrEmpty(checkOutDateStr) && !String.IsNullOrEmpty(checkInDateStr))
@@ -80,12 +85,10 @@ namespace Business.Repository
         {
             try
             {
-                var roomDetails = await _db.HotelRooms.FindAsync(roomId);
+                var roomDetails = await _db.HotelRooms.Include(x=> x.HotelRoomImages).FirstOrDefaultAsync(x=> x.Id == roomId);
                 if(roomDetails != null)
                 {
-                    var allImages = await _db.HotelRoomImages.Where(x => x.RoomID == roomId).ToListAsync();
-
-                    _db.HotelRoomImages.RemoveRange(allImages);
+                    _db.HotelRoomImages.RemoveRange(roomDetails.HotelRoomImages);
                     _db.HotelRooms.Remove(roomDetails);
                     return await _db.SaveChangesAsync();
                 }
@@ -104,13 +107,13 @@ namespace Business.Repository
                 if (roomId == 0)
                 {
                     HotelRoomDTO hotelRoomDTO = _mapper.Map<HotelRoom, HotelRoomDTO>(
-                    await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()));
+                    await _db.HotelRooms.AsNoTracking().FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower()));
                     return hotelRoomDTO;
                 }
                 else
                 {
                     HotelRoomDTO hotelRoomDTO = _mapper.Map<HotelRoom, HotelRoomDTO>(
-                    await _db.HotelRooms.FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower() && x.Id != roomId));
+                    await _db.HotelRooms.AsNoTracking().FirstOrDefaultAsync(x => x.Name.ToLower() == name.ToLower() && x.Id != roomId));
                     return hotelRoomDTO;
                 }
             }
@@ -120,16 +123,16 @@ namespace Business.Repository
             }
         }
 
-        public async Task<HotelRoomDTO> UpdateHotelRoom(int roomId, HotelRoomDTO hotelRoomDTO)
+        public async Task<HotelRoomDTO> UpdateHotelRoom(HotelRoomDTO hotelRoomDTO)
         {
             try
             {
-                if (roomId == hotelRoomDTO.Id)
+                if (hotelRoomDTO.Id != 0)
                 {
-                    HotelRoom roomDetails = await _db.HotelRooms.FindAsync(roomId);
+                    HotelRoom roomDetails = await _db.HotelRooms.FindAsync(hotelRoomDTO.Id);
                     HotelRoom room = _mapper.Map<HotelRoomDTO, HotelRoom>(hotelRoomDTO, roomDetails);
-                    room.UpdatedBy = "";
-                    room.UpdatedDate = DateTime.Now;
+                    // This causes all the relations and all the columns of the entity to get updated
+                    // Need to fix bug by digging deep into change tracking
                     var updatedRoom = _db.HotelRooms.Update(room);
                     await _db.SaveChangesAsync();
                     return _mapper.Map<HotelRoom, HotelRoomDTO>(updatedRoom.Entity);

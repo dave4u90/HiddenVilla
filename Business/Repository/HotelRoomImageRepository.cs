@@ -20,10 +20,10 @@ namespace Business.Repository.IRepository
             _mapper = mapper;
         }
 
-        public async Task<int> CreateHotelRoomImage(HotelRoomImageDTO imageDTO)
+        public async Task<int> CreateHotelRoomImages(List<HotelRoomImageDTO> imageDTOs)
         {
-            var image = _mapper.Map<HotelRoomImageDTO, HotelRoomImage>(imageDTO);
-            await _db.HotelRoomImages.AddAsync(image);
+            var images = _mapper.Map<List<HotelRoomImageDTO>, List<HotelRoomImage>>(imageDTOs);
+            await _db.HotelRoomImages.AddRangeAsync(images);
             return await _db.SaveChangesAsync();
         }
 
